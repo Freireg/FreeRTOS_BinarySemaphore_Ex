@@ -2,7 +2,12 @@
 /**
   ******************************************************************************
   * File Name          : freertos.c
-  * Description        : Code for freertos applications
+  * Description        : Simple Binary Semaphore example /
+  * This code has three tasks, the two with the highest priority have an interaction
+  * with the semaphore and the lower one don't. So, it should enter the HighPriority task
+  * and wait for the button to be pressed to release the semaphore and start the
+  * NormalPriority task. While the button isn't pressed, the LowerPriority task
+  * will run normally.
   ******************************************************************************
   * @attention
   *
@@ -210,11 +215,6 @@ void Startlowtask(void const * argument)
 	  osSemaphoreWait(BinSemHandle, osWaitForever);
 	  char *str1 = "Entered LowTask\n";
 	  HAL_UART_Transmit(&huart2, (uint8_t*) str1, strlen(str1), 100);
-
-	  char *str3 = "Waiting button to be pressed\n";
-	  HAL_UART_Transmit(&huart2, (uint8_t*) str3, strlen(str3), 100);
-
-	  while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0));
 
 	  char *str2 = "Leaving LowTask\n\n";
 	  HAL_UART_Transmit(&huart2, (uint8_t*) str2, strlen(str2), 100);
